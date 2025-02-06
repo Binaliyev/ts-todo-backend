@@ -1,0 +1,22 @@
+{
+  "name": "ts-todo-backend",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "start:dev": "ts-node-dev --respawn src/server.ts"
+  },
+  "author": "Binali Binaliyev",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/config": "^3.3.5",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.13.1",
+    "ts-node-dev": "^2.0.0"
+  },
+  "dependencies": {
+    "config": "^3.3.12",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
