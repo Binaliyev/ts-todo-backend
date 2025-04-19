@@ -18,11 +18,13 @@ class ServerError extends Error {
 }
 exports.ServerError = ServerError;
 const globalError = (res, err) => {
+    if (res.writableEnded)
+        return;
     const error = {
         message: err.message,
         status: err.status || 500
     };
-    res.statusCode = err.status || 500;
+    res.statusCode = err.status;
     return res.end(JSON.stringify(error));
 };
 exports.globalError = globalError;

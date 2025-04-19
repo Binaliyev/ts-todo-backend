@@ -19,10 +19,11 @@ export class ServerError extends Error {
 }
 
 export const globalError = (res:ResponseType, err: ErrorType) => {
+    if (res.writableEnded) return;
     const error: ErrorType = {
         message: err.message,
         status: err.status || 500
     }
-    res.statusCode = err.status || 500
+    res.statusCode = err.status;
     return res.end(JSON.stringify(error))
 }

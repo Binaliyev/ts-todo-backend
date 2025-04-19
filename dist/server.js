@@ -17,11 +17,21 @@ const errors_1 = require("./utils/errors");
 const auth_controller_1 = __importDefault(require("./controllers/auth.controller"));
 const config_1 = require("./utils/config");
 const jwt_1 = __importDefault(require("./jwt/jwt"));
+const { check_token } = jwt_1.default;
 const todo_controller_1 = __importDefault(require("./controllers/todo.controller"));
 const server = node_http_1.default.createServer((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const req_url = req.url.trim().toLowerCase();
     const req_method = req.method.trim().toUpperCase();
-    res.setHeader("Content-type", "application/json");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type,token");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    if (req_method == "OPTIONS") {
+        res.statusCode = 200;
+        res.setHeader("Content-type", "application/json");
+        res.end(JSON.stringify({ message: "success", status: 200 }));
+    }
+    ;
     if (req_url.startsWith('/api')) {
         if (req_url.startsWith("/api/auth")) {
             if (req_url.startsWith("/api/auth/register") && req_method == config_1.METHODS.CREATE)
@@ -29,7 +39,8 @@ const server = node_http_1.default.createServer((req, res) => __awaiter(void 0, 
             if (req_url.startsWith("/api/auth/login") && req_method == config_1.METHODS.CREATE)
                 auth_controller_1.default.LOGIN(req, res);
         }
-        else if (yield jwt_1.default.check_token(req, res)) {
+        else {
+            yield check_token(req, res);
             if (req_url.startsWith("/api/todos") && req_method == config_1.METHODS.CREATE)
                 todo_controller_1.default.CREATE_TODO(req, res);
             if (req_url.startsWith("/api/todos/") && req_method == config_1.METHODS.UPDATE)

@@ -19,9 +19,9 @@ class jwtServis extends JWT {
                 if (!token) throw new ClientError("User is unauthorized", 401);
                 const verifyToken: JWTInterface = this.verify_token(token as string) as JWTInterface;
                 const users: USER[] = await (controlFileEvent.read_file("users.json")) as USER[];
-                const user: USER = users.find((u:USER) => u.id == verifyToken.user_id) as USER;
-                if(!user) throw new ClientError("Token is Invalid", 401);
-                if(req.headers["user-agent"] != verifyToken.user_agent) throw new ClientError("Token is Invalid", 401);
+                const user: USER = users.find((u: USER) => u.id == verifyToken.user_id) as USER;
+                if (!user) throw new ClientError("Token is Invalid", 401);
+                if (req.headers["user-agent"] != verifyToken.user_agent) throw new ClientError("Token is Invalid", 401);
                 return true;
             } catch (error) {
                 globalError(res, error as ErrorType);

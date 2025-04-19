@@ -23,12 +23,12 @@ class controlFileEvent extends conFileEvent_dto_1.ReadAndWrite {
     constructor() {
         super();
         this.read_file = (file) => __awaiter(this, void 0, void 0, function* () {
-            const file_path = path_1.default.resolve("db", file);
+            const file_path = path_1.default.join(process.cwd(), "db", file);
             let users = yield (0, promises_1.readFile)(file_path, "utf8");
             return JSON.parse(users);
         });
         this.write_file = (file, data) => __awaiter(this, void 0, void 0, function* () {
-            const file_path = path_1.default.resolve("db", file);
+            const file_path = path_1.default.join(process.cwd(), "db", file);
             yield (0, promises_1.writeFile)(file_path, JSON.stringify(data, null, 4));
             return true;
         });
